@@ -1,0 +1,37 @@
+Task 2
+
+Pipeline to build the Go application
+
+1.First create a github repo
+
+2. Create a docker hub account
+3. Create a workflow file in the .gihub/workflows directory of your repo
+
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.18
+
+      - name: Build Go Application
+        run: go build -o hello-botgauge
+
+      - name: Docker Build and Push
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: username/hello-botgauge:latest
